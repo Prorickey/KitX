@@ -1,5 +1,5 @@
 # KitX
-##### A light weight kit manager plugin for spigot servers
+A light weight kit manager plugin for spigot servers
 
 ### Commands
 Commands | Description 
