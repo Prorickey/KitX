@@ -1,0 +1,13 @@
+main: xyz.prorickey.kitx.KitX
+author: Prorickey
+version: 1.0.0
+api-version: "1.16"
+name: KitX
+
+commands:
+  kitx:
+    usage: /kitx <subcommand>
+    description: To edit and use kits
+  kit:
+    usage: /kit <kitname>
+    description: To get a kit

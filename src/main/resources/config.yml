@@ -1,0 +1,20 @@
+messages:
+  subCommandDoesNotExist: "&cThat subcommand does not exist"
+  cannotExecuteFromConsole: "&cYou are not allowed to execute this command from console"
+  noPermission: "&cYou do not have permission to execute this command"
+
+  #Create Subcommand
+  creatSubNeedArg: "&cYou need to specify the kits name"
+  createSubEmptyInv: "&cYour inventory is empty, you can't create an empty kit"
+  createSubKitExists: "&cThat kit already exists. Do /kit delete to get rid of it"
+  createSubSuccess: "&eSuccessfully created your kit"
+
+  #Delete Subcommand
+  deleteSubNeedArg: "&cYou need to specify the name of the kit you want to delete"
+  deleteSubKitDoesntExist: "&cThat kit does not exist"
+  deleteSubSuccess: "&eSuccessfully deleted that kit"
+
+  #Kit Command
+  kitCmdDoesntExist: "&cThat kit does not exist"
+  kitCmdNoPerms: "&cYou do not have permission for that kit"
+  kitCmdCooldown: "&cYou are still on cooldown for this kit"
