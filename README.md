@@ -1,4 +1,4 @@
-![KitXLogo](../blob/main/KitXLogo.png)
+![KitXLogo](../main/KitXLogo.png)
 # KitX
 A light weight kit manager plugin for spigot servers
 
