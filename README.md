@@ -25,3 +25,6 @@ Permission | Description
 
 ### Support
 You can get support with the plugin in our [discord](https://discord.gg/DwQHaky3Nf)
+
+### Credits
+- [CyberedCake](https://github.com/CyberedCake) - The logo was remade by CyberedCake
