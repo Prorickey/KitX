@@ -13,11 +13,20 @@ repositories {
             includeGroup 'org.spigotmc'
         }
     }
+    maven {
+        name = "GitHubPackages"
+        url = uri("https://maven.pkg.github.com/Prorickey/Prorickey-API")
+        credentials {
+            username = project.findProperty("gpr.user") ?: System.getenv("USERNAME")
+            password = project.findProperty("gpr.key") ?: System.getenv("TOKEN")
+        }
+    }
     mavenLocal()
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
+    compileOnly 'xyz.prorickey:api:1.0.0'
 }
 
 test {
