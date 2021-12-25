@@ -1,5 +1,6 @@
 ![KitXLogo](../main/KitXLogo.png)
 # KitX
+![Discord Shield](https://discordapp.com/api/guilds/924043990465146931/widget.png?style=shield)
 A light weight kit manager plugin for spigot servers
 
 ### Suported Versions
