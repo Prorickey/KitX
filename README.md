@@ -17,3 +17,6 @@ Permission | Description
 `kitx.subcommands.delete` | To delete a kit with the /kitx delete command
 `kitx.subcommands.list` | To list all the kits with the /kitx list command
 `kit.cooldown.<kitname>.bypass` | To bypass a certain kits cooldown
+
+### Support
+You can get support with the plugin in our [discord](https://discord.gg/DwQHaky3Nf)
