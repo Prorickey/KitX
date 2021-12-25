@@ -2,6 +2,9 @@
 # KitX
 A light weight kit manager plugin for spigot servers
 
+### Suported Versions
+1.8 through 1.18
+
 ### Commands
 Commands | Description 
 --- | ---
