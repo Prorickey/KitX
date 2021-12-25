@@ -5,6 +5,8 @@ import org.bukkit.entity.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 
+import java.util.concurrent.atomic.*;
+
 public class SCreate extends SubCommand {
     public SCreate() { super("create", "To create a kit and save it", "kitx.subcommands.create", false); }
 
@@ -15,7 +17,11 @@ public class SCreate extends SubCommand {
             p.sendMessage(Utils.format(Config.getConfig().getString("messages.creatSubNeedArg")));
             return;
         }
-        if(p.getInventory().isEmpty()) {
+        AtomicReference<Boolean> empty = new AtomicReference<>(true);
+        p.getInventory().forEach(i -> {
+            if(i != null) { empty.set(false); }
+        });
+        if(empty.get()) {
             p.sendMessage(Utils.format(Config.getConfig().getString("messages.createSubEmptyInv")));
             return;
         }

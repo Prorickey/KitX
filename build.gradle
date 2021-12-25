@@ -3,7 +3,7 @@ plugins {
 }
 
 group 'xyz.prorickey'
-version '1.0.0'
+version '1.0.1'
 
 repositories {
     maven {
@@ -13,13 +13,11 @@ repositories {
             includeGroup 'org.spigotmc'
         }
     }
-    maven { url = 'https://oss.sonatype.org/content/repositories/snapshots' }
-    maven { url = 'https://oss.sonatype.org/content/repositories/central' }
     mavenLocal()
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.18-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
 }
 
 test {

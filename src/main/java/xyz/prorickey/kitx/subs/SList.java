@@ -2,13 +2,15 @@ package xyz.prorickey.kitx.subs;
 
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.command.*;
+import org.bukkit.entity.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 
 public class SList extends SubCommand {
-    public SList() { super("list", "To list all the kits", "kitx.subcommands.list", true); }
+    public SList() { super("list", "To list all the kits", "kitx.subcommands.list", false); }
     @Override
     public void executor(String[] args, CommandSender sender) {
+        Player p = (Player) sender;
         TextComponent comp = new TextComponent(Utils.format("\n&6All kits\n"));
         KitX.getKits().forEach((name, kit) -> {
             comp.addExtra(Utils.format("&e" + kit.getName() + " "));
@@ -18,6 +20,6 @@ public class SList extends SubCommand {
             comp.addExtra(cmdComp);
             comp.addExtra("\n");
         });
-        sender.spigot().sendMessage(comp);
+        p.spigot().sendMessage(comp);
     }
 }

@@ -1,7 +1,6 @@
 main: xyz.prorickey.kitx.KitX
 author: Prorickey
-version: 1.0.0
-api-version: "1.16"
+version: 1.0.1
 name: KitX
 
 commands:
