@@ -3,6 +3,7 @@ package xyz.prorickey.kitx.subs;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 
@@ -11,11 +12,11 @@ public class SList extends SubCommand {
     @Override
     public void executor(String[] args, CommandSender sender) {
         Player p = (Player) sender;
-        TextComponent comp = new TextComponent(Utils.format("\n&6All kits\n"));
+        TextComponent comp = new TextComponent(Chat.format("\n&6All kits\n"));
         KitX.getKits().forEach((name, kit) -> {
-            comp.addExtra(Utils.format("&e" + kit.getName() + " "));
-            TextComponent cmdComp = new TextComponent(Utils.format("&7/kit " + kit.getName()));
-            cmdComp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Utils.format("&eClick to get kit")).create()));
+            comp.addExtra(Chat.format("&e" + kit.getName() + " "));
+            TextComponent cmdComp = new TextComponent(Chat.format("&7/kit " + kit.getName()));
+            cmdComp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Chat.format("&eClick to get kit")).create()));
             cmdComp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kit " + kit.getName()));
             comp.addExtra(cmdComp);
             comp.addExtra("\n");

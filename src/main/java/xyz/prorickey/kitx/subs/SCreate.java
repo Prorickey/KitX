@@ -2,6 +2,7 @@ package xyz.prorickey.kitx.subs;
 
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 
@@ -14,7 +15,7 @@ public class SCreate extends SubCommand {
     public void executor(String[] args, CommandSender sender) {
         Player p = (Player) sender;
         if(args.length == 0) {
-            p.sendMessage(Utils.format(Config.getConfig().getString("messages.creatSubNeedArg")));
+            p.sendMessage(Chat.format(Config.getConfig().getString("messages.creatSubNeedArg")));
             return;
         }
         AtomicReference<Boolean> empty = new AtomicReference<>(true);
@@ -22,7 +23,7 @@ public class SCreate extends SubCommand {
             if(i != null) { empty.set(false); }
         });
         if(empty.get()) {
-            p.sendMessage(Utils.format(Config.getConfig().getString("messages.createSubEmptyInv")));
+            p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubEmptyInv")));
             return;
         }
         Integer cooldown = 0;
@@ -39,10 +40,10 @@ public class SCreate extends SubCommand {
         }
         String kitName = args[0].toLowerCase();
         if(KitX.kitExists(kitName)) {
-            p.sendMessage(Utils.format(Config.getConfig().getString("messages.createSubKitExists")));
+            p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubKitExists")));
             return;
         }
         new Kit(kitName, permission, p.getInventory(), cooldown);
-        p.sendMessage(Utils.format(Config.getConfig().getString("messages.createSubSuccess")));
+        p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubSuccess")));
     }
 }

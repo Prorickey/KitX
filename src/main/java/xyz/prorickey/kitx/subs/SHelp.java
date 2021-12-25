@@ -3,7 +3,7 @@ package xyz.prorickey.kitx.subs;
 import net.md_5.bungee.api.chat.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
-import xyz.prorickey.kitx.*;
+import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.builders.*;
 import xyz.prorickey.kitx.cmds.*;
 
@@ -13,9 +13,9 @@ public class SHelp extends SubCommand {
     @Override
     public void executor(String[] args, CommandSender sender) {
         Player p = (Player) sender;
-        ComponentBuilder comp = new ComponentBuilder(Utils.format("\n&6KitX Help Section\n"));
+        ComponentBuilder comp = new ComponentBuilder(Chat.format("\n&6KitX Help Section\n"));
         CmdKitX.subs.forEach((key, sub) -> {
-            comp.append(Utils.format("&6/" + sub.getName() + " &7- &e" + sub.getDescription() + "\n"));
+            comp.append(Chat.format("&6/" + sub.getName() + " &7- &e" + sub.getDescription() + "\n"));
         });
         p.spigot().sendMessage(comp.create());
     }
