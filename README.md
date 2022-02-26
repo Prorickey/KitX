@@ -8,12 +8,12 @@ A light weight kit manager plugin for spigot servers
 1.8 through 1.18
 
 ### Commands
-Commands | Description 
---- | ---
-`/kitx create <kitname> [cooldown] [permission]` | To create a kit with an optional cooldown and or permission
-`/kitx delete <kitname>` | To delete a kit by it's name
-`/kitx help` | To display the help section of the /kitx command
-`/kit <kitname>` | To get a certain kit. It will check the permission and cooldown
+Commands | Description                                                    
+-------------- |--------------------------------------------------------
+`/kitx create <kitname> [cooldown] [permission]` | To create a kit with an optional cooldown and or permission. In the cooldown you can put `s`, `m`, `h` and `d` after the number to convert it to seconds, minutes, hours and days. Having no suffix will default to seconds.
+`/kitx delete <kitname>`   | To delete a kit by it's name                                   
+`/kitx help` | To display the help section of the /kitx command               
+`/kit <kitname>` | To get a certain kit. It will check the permission and cooldown 
 
 ### Permissions
 Permission | Description 
