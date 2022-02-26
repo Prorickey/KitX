@@ -22,7 +22,7 @@ public class Kit {
         this.permission = permission;
         this.cooldown = cooldown;
         inv.forEach(i -> {
-            if(i != null && i.getType() != Material.AIR) {
+            if(i != null) {
                 this.items.add(i);
             }
         });

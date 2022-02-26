@@ -29,7 +29,17 @@ public class SCreate extends SubCommand {
         Integer cooldown = 0;
         if(args.length >= 2) {
             try {
-                cooldown = Integer.parseInt(args[1]);
+                if(args[1].toLowerCase().endsWith("s")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1));
+                } else if(args[1].toLowerCase().endsWith("m")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60;
+                } else if(args[1].toLowerCase().endsWith("h")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60*60;
+                } else if(args[1].toLowerCase().endsWith("d")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60*60&24;
+                } else {
+                    cooldown = Integer.parseInt(args[1]);
+                }
             } catch(NumberFormatException e) {
                 cooldown = 0;
             }

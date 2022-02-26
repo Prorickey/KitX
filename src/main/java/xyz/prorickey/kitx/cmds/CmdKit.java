@@ -1,13 +1,13 @@
 package xyz.prorickey.kitx.cmds;
 
 import net.md_5.bungee.api.chat.*;
-import org.apache.logging.log4j.CloseableThreadContext.*;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 
+import java.io.*;
 import java.time.*;
 import java.util.*;
 import java.util.List;
@@ -58,6 +58,11 @@ public class CmdKit implements CommandExecutor, TabCompleter {
                     cooldown.put(p.getUniqueId().toString(), new HashMap<>());
                 }
                 cooldown.get(p.getUniqueId().toString()).put(kitName, Instant.now().getEpochSecond());
+                try {
+                    Data.setCoolDown(p, kitName);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         } else {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdCooldown")));

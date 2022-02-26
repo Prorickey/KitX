@@ -25,6 +25,7 @@ public class KitX extends JavaPlugin {
         new CmdKitX(this);
         this.getCommand("kit").setExecutor(new CmdKit());
         this.getCommand("kit").setTabCompleter(new CmdKit());
+        Bukkit.getPluginManager().registerEvents(new Data(), this);
 
         File dir = new File(this.getDataFolder() + "/kits/");
         if(dir.exists()) {
