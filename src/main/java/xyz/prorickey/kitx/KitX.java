@@ -21,6 +21,7 @@ public class KitX extends JavaPlugin {
     public void onEnable() {
         Bukkit.getLogger().info("Enabling KitX v" + getDescription().getVersion());
         plugin = this;
+        new Metrics(this, 14534);
         new Config(this);
         new CmdKitX(this);
         this.getCommand("kit").setExecutor(new CmdKit());
