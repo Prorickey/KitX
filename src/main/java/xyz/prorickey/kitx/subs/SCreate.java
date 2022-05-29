@@ -22,10 +22,10 @@ public class SCreate extends SubCommand {
         if(args.length == 0) {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.creatSubNeedArg")));
             return;
-        } else if(args.length == 1) {
+        } /*else if(args.length == 1) {
             createCreateKitGUI(p, args[0]);
             return;
-        }
+        }*/
         AtomicReference<Boolean> empty = new AtomicReference<>(true);
         p.getInventory().forEach(i -> {
             if(i != null) { empty.set(false); }
