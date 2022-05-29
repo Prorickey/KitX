@@ -17,11 +17,11 @@ public class SDelete extends SubCommand {
             return;
         }
         String kitName = args[0].toLowerCase();
-        if(!KitX.kitExists(kitName)) {
+        if(KitX.getDataManager().getKit(kitName) == null) {
             sender.sendMessage(Chat.format(Config.getConfig().getString("messages.deleteSubKitDoesntExist")));
             return;
         }
-        KitX.getKit(kitName).deleteKit();
+        KitX.getDataManager().deleteKit(kitName);
         sender.sendMessage(Chat.format(Config.getConfig().getString("messages.deleteSubSuccess")));
     }
 
@@ -29,7 +29,7 @@ public class SDelete extends SubCommand {
     public List<String> tabComplete(CommandSender sender, String[] args) {
         if(sender instanceof ConsoleCommandSender ||  sender.hasPermission("kitx.subcommands.delete")) {
             List<String> list = new ArrayList<>();
-            list.addAll(KitX.getKits().keySet());
+            list.addAll(KitX.getDataManager().getKits().keySet());
             return TabComplete.tabCompletionsSearch(args[0], list);
         }
         return new ArrayList<>();

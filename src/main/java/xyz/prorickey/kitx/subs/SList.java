@@ -13,7 +13,7 @@ public class SList extends SubCommand {
     public void executor(String[] args, CommandSender sender) {
         Player p = (Player) sender;
         TextComponent comp = new TextComponent(Chat.format("\n&6All kits\n"));
-        KitX.getKits().forEach((name, kit) -> {
+        KitX.getDataManager().getKits().forEach((name, kit) -> {
             comp.addExtra(Chat.format("&e" + kit.getName() + " "));
             TextComponent cmdComp = new TextComponent(Chat.format("&7/kit " + kit.getName()));
             cmdComp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(Chat.format("&eClick to get kit")).create()));

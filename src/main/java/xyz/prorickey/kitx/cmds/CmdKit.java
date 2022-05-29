@@ -14,8 +14,6 @@ import java.util.List;
 
 public class CmdKit implements CommandExecutor, TabCompleter {
 
-    public static Map<String, Map<String, Long>> cooldown = new HashMap<>();
-
     @Override
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
         if(sender instanceof ConsoleCommandSender) {
@@ -25,7 +23,7 @@ public class CmdKit implements CommandExecutor, TabCompleter {
         Player p = (Player) sender;
         if(args.length == 0) {
             TextComponent comp = new TextComponent(Chat.format("\n&6Available kits\n"));
-            KitX.getKits().forEach((name, kit) -> {
+            KitX.getDataManager().getKits().forEach((name, kit) -> {
                 if(kit.getPermission() == null || p.hasPermission(kit.getPermission())) {
                     comp.addExtra(Chat.format("&e" + kit.getName() + " "));
                     TextComponent cmdComp = new TextComponent(Chat.format("&7/kit " + kit.getName()));
@@ -39,30 +37,20 @@ public class CmdKit implements CommandExecutor, TabCompleter {
             return true;
         }
         String kitName = args[0].toLowerCase();
-        if(!KitX.kitExists(kitName)) {
+        if(KitX.getDataManager().getKit(kitName) == null) {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdDoesntExist")));
             return true;
         }
-        Kit kit = KitX.getKit(kitName);
+        Kit kit = KitX.getDataManager().getKit(kitName);
         if(kit.getPermission() != null && !p.hasPermission(kit.getPermission())) {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdNoPerms")));
             return true;
         }
-        if(!cooldown.containsKey(p.getUniqueId().toString()) ||
-                !cooldown.get(p.getUniqueId().toString()).containsKey(kitName) ||
-                !(cooldown.get(p.getUniqueId().toString()).get(kitName) > (Instant.now().getEpochSecond() - (kit.getCooldown())))) {
+        if(!KitX.getDataManager().onCooldownForKit(kitName, p.getUniqueId())) {
             kit.getItems().forEach(i -> p.getInventory().addItem(i));
             p.sendMessage(Chat.format("&eGave you the &6" + kit.getName() + " &ekit"));
             if(!p.hasPermission("kit.cooldown." + kitName + ".bypass") && kit.getCooldown() != 0) {
-                if(!cooldown.containsKey(p.getUniqueId().toString())) {
-                    cooldown.put(p.getUniqueId().toString(), new HashMap<>());
-                }
-                cooldown.get(p.getUniqueId().toString()).put(kitName, Instant.now().getEpochSecond());
-                try {
-                    Data.setCoolDown(p, kitName);
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                KitX.getDataManager().putCooldownForKit(kitName, p.getUniqueId());
             }
         } else {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdCooldown")));
@@ -76,9 +64,9 @@ public class CmdKit implements CommandExecutor, TabCompleter {
         if(args.length == 1 && !(sender instanceof ConsoleCommandSender)) {
             Player p = (Player) sender;
             List<String> list = new ArrayList<>();
-            KitX.getKits().forEach((name, kit) -> {
+            KitX.getDataManager().getKits().forEach((name, kit) -> {
                 if(kit.getPermission() == null || p.hasPermission(kit.getPermission())) {
-                    if(!cooldown.containsKey(p.getUniqueId().toString()) || (!cooldown.get(p.getUniqueId().toString()).containsKey(name) || cooldown.get(p.getUniqueId().toString()).get(name) > (Instant.now().getEpochSecond() - 1000 * kit.getCooldown()))) {
+                    if(!KitX.getDataManager().onCooldownForKit(kit.getName(), p.getUniqueId())) {
                         list.add(kit.getName());
                     }
                 }

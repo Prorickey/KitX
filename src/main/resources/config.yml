@@ -18,3 +18,7 @@ messages:
   kitCmdDoesntExist: "&cThat kit does not exist"
   kitCmdNoPerms: "&cYou do not have permission for that kit"
   kitCmdCooldown: "&cYou are still on cooldown for this kit"
+
+database:
+  # Types include: yaml
+  type: yaml
