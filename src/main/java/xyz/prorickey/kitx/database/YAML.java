@@ -9,6 +9,7 @@ import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 
 import java.io.*;
+import java.time.*;
 import java.util.*;
 
 public class YAML implements Database {
@@ -105,7 +106,7 @@ public class YAML implements Database {
         if(file.exists()) {
             YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
             long time = player.getLong("cooldown." + name);
-            return time > Time.getUnix();
+            return time > Instant.now().getEpochSecond();
         } else return false;
     }
 
@@ -121,7 +122,7 @@ public class YAML implements Database {
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
         Kit kit = kits.get(name);
-        if(kit != null) player.set("cooldown." + name, kit.getCooldown() + Time.getUnix());
+        if(kit != null) player.set("cooldown." + name, kit.getCooldown() + Instant.now().getEpochSecond());
     }
 
 }

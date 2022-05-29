@@ -27,7 +27,7 @@ repositories {
 
 dependencies {
     compileOnly 'org.spigotmc:spigot:1.8.8-R0.1-SNAPSHOT'
-    implementation 'xyz.prorickey:api:1.0.1'
+    implementation 'xyz.prorickey:api:1.0.0'
 }
 
 test {
