@@ -7,6 +7,7 @@ messages:
   creatSubNeedArg: "&cYou need to specify the kits name"
   createSubEmptyInv: "&cYour inventory is empty, you can't create an empty kit"
   createSubKitExists: "&cThat kit already exists. Do /kit delete to get rid of it"
+  createSubInvalidLimit: "&cThe limit you input is invalid. It must be a number or 0 for no limit"
   createSubSuccess: "&eSuccessfully created your kit"
 
   #Delete Subcommand
@@ -18,6 +19,7 @@ messages:
   kitCmdDoesntExist: "&cThat kit does not exist"
   kitCmdNoPerms: "&cYou do not have permission for that kit"
   kitCmdCooldown: "&cYou are still on cooldown for this kit"
+  kitCmdLimit: "&cYou have met the limit for this kit"
 
 database:
   # Types include: yaml
