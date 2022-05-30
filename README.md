@@ -21,7 +21,8 @@ Permission | Description
 `kitx.subcommands.create` | To create a kit with the /kitx create command
 `kitx.subcommands.delete` | To delete a kit with the /kitx delete command
 `kitx.subcommands.list` | To list all the kits with the /kitx list command
-`kit.cooldown.<kitname>.bypass` | To bypass a certain kits cooldown
+`kit.cooldown.<kitname>.bypass` | To bypass a certain kit's cooldown
+`kit.limit.<kitname>.bypass` | To bypass a certain kit's limit
 
 ### Support
 You can get support with the plugin in our [discord](https://discord.gg/DwQHaky3Nf)
