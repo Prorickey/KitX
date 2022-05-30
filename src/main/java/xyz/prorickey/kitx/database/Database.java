@@ -6,8 +6,6 @@ import java.util.*;
 
 public interface Database {
 
-    void Database();
-
     Map<String, Kit> getKits();
     Kit getKit(String name);
     void saveKit(String name, Kit kit);
@@ -15,5 +13,7 @@ public interface Database {
 
     Boolean onCooldownForKit(String name, UUID uuid);
     void putCooldownForKit(String name, UUID uuid);
+    Boolean onLimitForKit(String name, UUID uuid);
+    void addLimitForKit(String name, UUID uuid);
 
 }
