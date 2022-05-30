@@ -46,16 +46,19 @@ public class CmdKit implements CommandExecutor, TabCompleter {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdNoPerms")));
             return true;
         }
-        if(!KitX.getDataManager().onCooldownForKit(kitName, p.getUniqueId())) {
+        if(!p.hasPermission("kit.limit." + kitName + ".bypass") && KitX.getDataManager().onLimitForKit(kitName, p.getUniqueId())) {
+            p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdLimit")));
+            return true;
+        }
+        if(p.hasPermission("kit.cooldown." + kitName + ".bypass") || !KitX.getDataManager().onCooldownForKit(kitName, p.getUniqueId())) {
             kit.getItems().forEach(i -> p.getInventory().addItem(i));
             p.sendMessage(Chat.format("&eGave you the &6" + kit.getName() + " &ekit"));
-            if(!p.hasPermission("kit.cooldown." + kitName + ".bypass") && kit.getCooldown() != 0) {
-                KitX.getDataManager().putCooldownForKit(kitName, p.getUniqueId());
-            }
         } else {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.kitCmdCooldown")));
             return true;
         }
+        if(!p.hasPermission("kit.cooldown." + kitName + ".bypass") && kit.getCooldown() != 0) KitX.getDataManager().putCooldownForKit(kitName, p.getUniqueId());
+        if(!p.hasPermission("kit.limit." + kitName + ".bypass") && kit.getLimit() != 0) KitX.getDataManager().addLimitForKit(kitName, p.getUniqueId());
         return true;
     }
 

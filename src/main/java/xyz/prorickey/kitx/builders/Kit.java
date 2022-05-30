@@ -13,12 +13,14 @@ public class Kit {
     private final String name;
     private final String permission;
     private final Integer cooldown;
+    private final Integer limit;
     private final List<ItemStack> items = new ArrayList<>();
 
-    public Kit(String name, String permission, Inventory inv, Integer cooldown) {
+    public Kit(String name, String permission, Integer limit, Inventory inv, Integer cooldown) {
         this.name = name;
         this.permission = permission;
         this.cooldown = cooldown;
+        this.limit = limit;
         inv.forEach(i -> {
             if(i != null) {
                 this.items.add(i);
@@ -29,5 +31,6 @@ public class Kit {
     public String getPermission() { return this.permission; }
     public List<ItemStack> getItems() { return this.items; }
     public Integer getCooldown() { return this.cooldown; }
+    public Integer getLimit() { return this.limit; }
 
 }

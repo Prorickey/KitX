@@ -35,31 +35,40 @@ public class SCreate extends SubCommand {
             return;
         }
         int cooldown = 0;
-        try {
-            if(args[1].toLowerCase().endsWith("s")) {
-                cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1));
-            } else if(args[1].toLowerCase().endsWith("m")) {
-                cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60;
-            } else if(args[1].toLowerCase().endsWith("h")) {
-                cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60*60;
-            } else if(args[1].toLowerCase().endsWith("d")) {
-                cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60*60&24;
-            } else {
-                cooldown = Integer.parseInt(args[1]);
+        if(args.length >= 2) {
+            try {
+                if(args[1].toLowerCase().endsWith("s")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1));
+                } else if(args[1].toLowerCase().endsWith("m")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60;
+                } else if(args[1].toLowerCase().endsWith("h")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60*60;
+                } else if(args[1].toLowerCase().endsWith("d")) {
+                    cooldown = Integer.parseInt(args[1].substring(args[1].length()-2, args[1].length()-1))*60*60&24;
+                } else {
+                    cooldown = Integer.parseInt(args[1]);
+                }
+            } catch(NumberFormatException e) {
+                cooldown = 0;
             }
-        } catch(NumberFormatException e) {
-            cooldown = 0;
+        }
+        int limit = 0;
+        if(args.length >= 3) {
+            try {
+                limit = Integer.parseInt(args[2]);
+            } catch(NumberFormatException e) {
+                p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubInvalidLimit")));
+                return;
+            }
         }
         String permission = null;
-        if(args.length >= 3) {
-            permission = args[2];
-        }
+        if(args.length >= 4) permission = args[3];
         String kitName = args[0].toLowerCase();
         if(KitX.getDataManager().getKit(kitName) != null) {
             p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubKitExists")));
             return;
         }
-        KitX.getDataManager().saveKit(kitName, new Kit(kitName, permission, p.getInventory(), cooldown));
+        KitX.getDataManager().saveKit(kitName, new Kit(kitName, permission, limit, p.getInventory(), cooldown));
         p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubSuccess")));
     }
 
