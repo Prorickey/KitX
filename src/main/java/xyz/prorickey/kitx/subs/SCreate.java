@@ -6,9 +6,9 @@ import org.bukkit.entity.*;
 import org.bukkit.event.inventory.*;
 import org.bukkit.inventory.*;
 import org.bukkit.inventory.meta.*;
-import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
+import xyz.prorickey.proutils.ChatFormat;
 
 import java.util.*;
 import java.util.concurrent.atomic.*;
@@ -20,7 +20,7 @@ public class SCreate extends SubCommand {
     public void executor(String[] args, CommandSender sender) {
         Player p = (Player) sender;
         if(args.length == 0) {
-            p.sendMessage(Chat.format(Config.getConfig().getString("messages.creatSubNeedArg")));
+            p.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.creatSubNeedArg")));
             return;
         } /*else if(args.length == 1) {
             createCreateKitGUI(p, args[0]);
@@ -31,7 +31,7 @@ public class SCreate extends SubCommand {
             if(i != null) { empty.set(false); }
         });
         if(empty.get()) {
-            p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubEmptyInv")));
+            p.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.createSubEmptyInv")));
             return;
         }
         int cooldown = 0;
@@ -57,7 +57,7 @@ public class SCreate extends SubCommand {
             try {
                 limit = Integer.parseInt(args[2]);
             } catch(NumberFormatException e) {
-                p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubInvalidLimit")));
+                p.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.createSubInvalidLimit")));
                 return;
             }
         }
@@ -65,11 +65,11 @@ public class SCreate extends SubCommand {
         if(args.length >= 4) permission = args[3];
         String kitName = args[0].toLowerCase();
         if(KitX.getDataManager().getKit(kitName) != null) {
-            p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubKitExists")));
+            p.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.createSubKitExists")));
             return;
         }
         KitX.getDataManager().saveKit(kitName, new Kit(kitName, permission, limit, p.getInventory(), cooldown));
-        p.sendMessage(Chat.format(Config.getConfig().getString("messages.createSubSuccess")));
+        p.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.createSubSuccess")));
     }
 
     public static void createCreateKitGUI(Player player, String name) {
@@ -79,20 +79,20 @@ public class SCreate extends SubCommand {
         }
         ItemStack emerald = new ItemStack(Material.EMERALD);
         ItemMeta emeta = emerald.getItemMeta();
-        emeta.setDisplayName(Chat.format("&a" + name));
-        emeta.setLore(Arrays.asList(Chat.format("&eIcon: Diamond Sword"), Chat.format("&eCooldown: 0")));
+        emeta.setDisplayName(ChatFormat.format("&a" + name));
+        emeta.setLore(Arrays.asList(ChatFormat.format("&eIcon: Diamond Sword"), ChatFormat.format("&eCooldown: 0")));
         emerald.setItemMeta(emeta);
         gui.setItem(0, emerald);
         ItemStack icon = new ItemStack(Material.IRON_SWORD);
         ItemMeta iconmeta = icon.getItemMeta();
-        iconmeta.setDisplayName(Chat.format("&eIcon"));
+        iconmeta.setDisplayName(ChatFormat.format("&eIcon"));
         iconmeta.setLore(Arrays.asList("&aClick to change icon"));
         icon.setItemMeta(iconmeta);
         gui.setItem(13, icon);
         ItemStack cooldown = new ItemStack(Material.WATCH);
         ItemMeta cooldownmeta = cooldown.getItemMeta();
-        cooldownmeta.setDisplayName(Chat.format("&eCooldown"));
-        cooldownmeta.setLore(Arrays.asList(Chat.format("&aClick to change the cooldown")));
+        cooldownmeta.setDisplayName(ChatFormat.format("&eCooldown"));
+        cooldownmeta.setLore(Arrays.asList(ChatFormat.format("&aClick to change the cooldown")));
         cooldown.setItemMeta(cooldownmeta);
         gui.setItem(29, cooldown);
         player.openInventory(gui);

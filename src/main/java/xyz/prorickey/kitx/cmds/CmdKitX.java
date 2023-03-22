@@ -3,10 +3,11 @@ package xyz.prorickey.kitx.cmds;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
 import org.bukkit.plugin.java.*;
-import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
 import xyz.prorickey.kitx.subs.*;
+import xyz.prorickey.proutils.ChatFormat;
+import xyz.prorickey.proutils.TabComplete;
 
 import java.util.*;
 
@@ -34,16 +35,16 @@ public class CmdKitX implements CommandExecutor, TabCompleter {
             if(subs.containsKey(arg)) {
                 SubCommand sub = subs.get(arg);
                 if(sender instanceof ConsoleCommandSender && !sub.getConsole()) {
-                    sender.sendMessage(Chat.format(Config.getConfig().getString("messages.cannotExecuteFromConsole")));
+                    sender.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.cannotExecuteFromConsole")));
                 } else if(sender instanceof Player && sub.getPermission() != null && !((Player) sender).hasPermission("kitx.subcommand." + sub.getName())) {
-                    sender.sendMessage(Chat.format(Config.getConfig().getString("messages.noPermission")));
+                    sender.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.noPermission")));
                 } else {
                     String[] newArgs = new String[args.length - 1];
                     for(int i = 1; i < args.length; i++) { newArgs[i - 1] = args[i]; }
                     sub.executor(newArgs, sender);
                 }
             } else {
-                sender.sendMessage(Chat.format(Config.getConfig().getString("messages.subCommandDoesNotExist")));
+                sender.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.subCommandDoesNotExist")));
             }
         }
         return true;

@@ -1,9 +1,10 @@
 package xyz.prorickey.kitx.subs;
 
 import org.bukkit.command.*;
-import xyz.prorickey.api.chat.*;
 import xyz.prorickey.kitx.*;
 import xyz.prorickey.kitx.builders.*;
+import xyz.prorickey.proutils.ChatFormat;
+import xyz.prorickey.proutils.TabComplete;
 
 import java.util.*;
 
@@ -13,16 +14,16 @@ public class SDelete extends SubCommand {
     @Override
     public void executor(String[] args, CommandSender sender) {
         if(args.length == 0) {
-            sender.sendMessage(Chat.format(Config.getConfig().getString("messages.deleteSubNeedArg")));
+            sender.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.deleteSubNeedArg")));
             return;
         }
         String kitName = args[0].toLowerCase();
         if(KitX.getDataManager().getKit(kitName) == null) {
-            sender.sendMessage(Chat.format(Config.getConfig().getString("messages.deleteSubKitDoesntExist")));
+            sender.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.deleteSubKitDoesntExist")));
             return;
         }
         KitX.getDataManager().deleteKit(kitName);
-        sender.sendMessage(Chat.format(Config.getConfig().getString("messages.deleteSubSuccess")));
+        sender.sendMessage(ChatFormat.format(Config.getConfig().getString("messages.deleteSubSuccess")));
     }
 
     @Override
