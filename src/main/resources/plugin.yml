@@ -2,7 +2,7 @@ main: xyz.prorickey.kitx.KitX
 author: Prorickey
 version: 1.2.0-beta
 name: KitX
-
+api-version: 1.8
 commands:
   kitx:
     usage: /kitx <subcommand>
