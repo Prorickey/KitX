@@ -3,6 +3,8 @@
 /out/
 /build/
 gradle.properties
+/bin/
+/output/
 
 # Ignore Gradle GUI config
 gradle-app.setting
