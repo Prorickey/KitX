@@ -11,9 +11,10 @@ public interface Database {
     void saveKit(String name, Kit kit);
     void deleteKit(String name);
 
-    Boolean onCooldownForKit(String name, UUID uuid);
-    void putCooldownForKit(String name, UUID uuid);
-    Boolean onLimitForKit(String name, UUID uuid);
-    void addLimitForKit(String name, UUID uuid);
+    void putCooldownForKit(String name, UUID uuid, Long nextUseTime);
+    void changeLimitForKit(String name, UUID uuid, int change);
+
+    Map<String, Long> getCooldownsForPlayer(UUID uuid);
+    Map<String, Integer> getLimitsForPlayer(UUID uuid);
 
 }

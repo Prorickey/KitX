@@ -2,6 +2,7 @@ package xyz.prorickey.kitx.spigot;
 
 import org.bukkit.*;
 import org.bukkit.plugin.java.*;
+import xyz.prorickey.kitx.api.KitManager;
 import xyz.prorickey.kitx.api.KitXAPI;
 import xyz.prorickey.kitx.spigot.cmds.CmdKit;
 import xyz.prorickey.kitx.spigot.cmds.CmdKitX;
@@ -44,7 +45,7 @@ public class KitX extends JavaPlugin {
 
     }
 
-    public static Database getDataManager() { return database; }
+    public static KitManager getKitManager() { return kitManager; }
     public static JavaPlugin getPlugin() { return plugin; }
 
     public static String format(String s) {

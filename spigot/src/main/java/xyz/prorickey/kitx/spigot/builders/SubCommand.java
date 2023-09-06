@@ -2,7 +2,6 @@ package xyz.prorickey.kitx.spigot.builders;
 
 import org.bukkit.command.*;
 import xyz.prorickey.kitx.spigot.cmds.CmdKitX;
-import xyz.prorickey.kitx.spigot.cmds.*;
 
 import java.util.*;
 

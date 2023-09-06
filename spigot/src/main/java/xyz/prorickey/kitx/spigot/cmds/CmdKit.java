@@ -22,12 +22,12 @@ public class CmdKit implements CommandExecutor, TabCompleter {
         Player p = (Player) sender;
         if(args.length == 0) {
             TextComponent comp = new TextComponent(KitX.format("\n&6Available kits\n"));
-            KitX.getDataManager().getKits().forEach((name, kit) -> {
-                if(kit.getPermission() == null || p.hasPermission(kit.getPermission())) {
-                    comp.addExtra(KitX.format("&e" + kit.getName() + " "));
-                    TextComponent cmdComp = new TextComponent(KitX.format("&7/kit " + kit.getName()));
+            KitX.getKitManager().getAllKits().forEach((name, kit) -> {
+                if(kit.permission() == null || p.hasPermission(kit.permission())) {
+                    comp.addExtra(KitX.format("&e" + kit.name() + " "));
+                    TextComponent cmdComp = new TextComponent(KitX.format("&7/kit " + kit.name()));
                     cmdComp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(KitX.format("&eClick to get kit")).create()));
-                    cmdComp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kit " + kit.getName()));
+                    cmdComp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kit " + kit.name()));
                     comp.addExtra(cmdComp);
                     comp.addExtra("\n");
                 }
@@ -36,28 +36,28 @@ public class CmdKit implements CommandExecutor, TabCompleter {
             return true;
         }
         String kitName = args[0].toLowerCase();
-        if(KitX.getDataManager().getKit(kitName) == null) {
+        if(KitX.getKitManager().getKit(kitName) == null) {
             p.sendMessage(KitX.format(Config.getConfig().getString("messages.kitCmdDoesntExist")));
             return true;
         }
-        Kit kit = KitX.getDataManager().getKit(kitName);
-        if(kit.getPermission() != null && !p.hasPermission(kit.getPermission())) {
+        Kit kit = KitX.getKitManager().getKit(kitName);
+        if(kit.permission() != null && !p.hasPermission(kit.permission())) {
             p.sendMessage(KitX.format(Config.getConfig().getString("messages.kitCmdNoPerms")));
             return true;
         }
-        if(!p.hasPermission("kit.limit." + kitName + ".bypass") && KitX.getDataManager().onLimitForKit(kitName, p.getUniqueId())) {
+        if(!p.hasPermission("kit.limit." + kitName + ".bypass") && KitX.getKitManager().getPlayerLimit(p.getUniqueId(), kit) <= kit.limit()) {
             p.sendMessage(KitX.format(Config.getConfig().getString("messages.kitCmdLimit")));
             return true;
         }
-        if(p.hasPermission("kit.cooldown." + kitName + ".bypass") || !KitX.getDataManager().onCooldownForKit(kitName, p.getUniqueId())) {
-            kit.getItems().forEach(i -> p.getInventory().addItem((ItemStack) ((Object) i)));
-            p.sendMessage(KitX.format("&eGave you the &6" + kit.getName() + " &ekit"));
+        if(p.hasPermission("kit.cooldown." + kitName + ".bypass") || !KitX.getKitManager().checkPlayerOnCooldown(p.getUniqueId(), kit)) {
+            kit.items().forEach(i -> p.getInventory().addItem((ItemStack) ((Object) i)));
+            p.sendMessage(KitX.format("&eGave you the &6" + kit.name() + " &ekit"));
         } else {
             p.sendMessage(KitX.format(Config.getConfig().getString("messages.kitCmdCooldown")));
             return true;
         }
-        if(!p.hasPermission("kit.cooldown." + kitName + ".bypass") && kit.getCooldown() != 0) KitX.getDataManager().putCooldownForKit(kitName, p.getUniqueId());
-        if(!p.hasPermission("kit.limit." + kitName + ".bypass") && kit.getLimit() != 0) KitX.getDataManager().addLimitForKit(kitName, p.getUniqueId());
+        if(!p.hasPermission("kit.cooldown." + kitName + ".bypass") && kit.cooldown() != 0) KitX.getKitManager().putPlayerOnCooldown(p.getUniqueId(), kit);
+        if(!p.hasPermission("kit.limit." + kitName + ".bypass") && kit.limit() != 0) KitX.getKitManager().updatePlayerLimit(p.getUniqueId(), kit, 1);
         return true;
     }
 
@@ -66,10 +66,10 @@ public class CmdKit implements CommandExecutor, TabCompleter {
         if(args.length == 1 && !(sender instanceof ConsoleCommandSender)) {
             Player p = (Player) sender;
             List<String> list = new ArrayList<>();
-            KitX.getDataManager().getKits().forEach((name, kit) -> {
-                if(kit.getPermission() == null || p.hasPermission(kit.getPermission())) {
-                    if(!KitX.getDataManager().onCooldownForKit(kit.getName(), p.getUniqueId())) {
-                        list.add(kit.getName());
+            KitX.getKitManager().getAllKits().forEach((name, kit) -> {
+                if(kit.permission() == null || p.hasPermission(kit.permission())) {
+                    if(!KitX.getKitManager().checkPlayerOnCooldown(p.getUniqueId(), kit)) {
+                        list.add(kit.name());
                     }
                 }
             });

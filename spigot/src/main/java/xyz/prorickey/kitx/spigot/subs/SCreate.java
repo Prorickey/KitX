@@ -71,7 +71,7 @@ public class SCreate extends SubCommand {
         }
         List<String> items = new ArrayList<>();
         p.getInventory().forEach(item -> items.add(item.toString()));
-        KitX.getDataManager().saveKit(kitName, new Kit(kitName, permission, limit, items, cooldown));
+        KitX.getDataManager().saveKit(kitName, new Kit(kitName, permission, limit, cooldown, items));
         p.sendMessage(KitX.format(Config.getConfig().getString("messages.createSubSuccess")));
     }
 

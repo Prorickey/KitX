@@ -14,10 +14,10 @@ public class SList extends SubCommand {
         Player p = (Player) sender;
         TextComponent comp = new TextComponent(KitX.format("\n&6All kits\n"));
         KitX.getDataManager().getKits().forEach((name, kit) -> {
-            comp.addExtra(KitX.format("&e" + kit.getName() + " "));
-            TextComponent cmdComp = new TextComponent(KitX.format("&7/kit " + kit.getName()));
+            comp.addExtra(KitX.format("&e" + kit.name() + " "));
+            TextComponent cmdComp = new TextComponent(KitX.format("&7/kit " + kit.name()));
             cmdComp.setHoverEvent(new HoverEvent(HoverEvent.Action.SHOW_TEXT, new ComponentBuilder(KitX.format("&eClick to get kit")).create()));
-            cmdComp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kit " + kit.getName()));
+            cmdComp.setClickEvent(new ClickEvent(ClickEvent.Action.RUN_COMMAND, "/kit " + kit.name()));
             comp.addExtra(cmdComp);
             comp.addExtra("\n");
         });

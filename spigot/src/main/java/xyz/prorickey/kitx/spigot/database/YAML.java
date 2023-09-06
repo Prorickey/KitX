@@ -1,23 +1,24 @@
 package xyz.prorickey.kitx.spigot.database;
 
-import org.bukkit.*;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.*;
-import org.bukkit.event.inventory.*;
-import org.bukkit.inventory.*;
 import xyz.prorickey.kitx.api.Kit;
 import xyz.prorickey.kitx.spigot.KitX;
 
 import java.io.*;
-import java.time.*;
 import java.util.*;
 
 public class YAML implements Database {
 
-    private static final Map<String, Kit> kits = new HashMap<>();
-
     public YAML() {
         File dir = new File(KitX.getPlugin().getDataFolder() + "/yaml");
         dir.mkdir();
+    }
+
+    @Override
+    public Map<String, Kit> getKits() {
+        Map<String, Kit> kits = new HashMap<>();
+        File dir = new File(KitX.getPlugin().getDataFolder() + "/yaml");
         File[] files = dir.listFiles();
         if(files != null) {
             for (File file : files) {
@@ -27,34 +28,25 @@ public class YAML implements Database {
                     if (yaml.get("permission") != null) permission = yaml.getString("permission");
                     int limit = 0;
                     if (yaml.get("limit") != null) limit = yaml.getInt("limit");
-                    Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getStringList("items"), yaml.getInt("cooldown"));
+                    Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getInt("cooldown"), yaml.getStringList("items"));
                     kits.put(yaml.getString("name").toLowerCase(), kit);
                 }
             }
         }
-    }
-
-    @Override
-    public Map<String, Kit> getKits() {
         return kits;
     }
 
     @Override
     public Kit getKit(String name) {
-        if(kits.containsKey(name)) return kits.get(name);
-        else {
-            File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/kit_" + name + ".yml");
-            if(file.exists()) {
-                FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-                String permission = null;
-                if (yaml.get("permission") != null) permission = yaml.getString("permission");
-                Integer limit = 0;
-                if (yaml.get("limit") != null) limit = yaml.getInt("limit");
-                Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getStringList("items"), yaml.getInt("cooldown"));
-                kits.put(yaml.getString("name").toLowerCase(), kit);
-                return kit;
-            } else return null;
-        }
+        File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/kit_" + name + ".yml");
+        if(file.exists()) {
+            FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+            String permission = null;
+            if (yaml.get("permission") != null) permission = yaml.getString("permission");
+            int limit = 0;
+            if (yaml.get("limit") != null) limit = yaml.getInt("limit");
+            return new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getInt("cooldown"), yaml.getStringList("items"));
+        } else return null;
     }
 
     @Override
@@ -68,38 +60,47 @@ public class YAML implements Database {
             }
         }
         FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
-        yaml.set("name", kit.getName());
-        yaml.set("permission", kit.getPermission());
-        yaml.set("cooldown", kit.getCooldown());
-        yaml.set("limit", kit.getLimit());
-        yaml.set("items", kit.getItems());
+        yaml.set("name", kit.name());
+        yaml.set("permission", kit.permission());
+        yaml.set("cooldown", kit.cooldown());
+        yaml.set("limit", kit.limit());
+        yaml.set("items", kit.items());
         try {
             yaml.save(file);
         } catch (IOException e) {
             e.printStackTrace();
         }
-        kits.put(name, kit);
     }
 
     @Override
     public void deleteKit(String name) {
-        kits.remove(name);
         File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/kit_" + name + ".yml");
         file.delete();
     }
 
     @Override
-    public Boolean onCooldownForKit(String name, UUID uuid) {
-        File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/player_" + uuid.toString() + ".yml");
-        if(file.exists()) {
+    public void putCooldownForKit(String name, UUID uuid, Long nextUseTime) {
+        Bukkit.getScheduler().runTaskAsynchronously(KitX.getPlugin(), () -> {
+            File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/player_" + uuid.toString() + ".yml");
+            if(!file.exists()) {
+                try {
+                    file.createNewFile();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
             YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
-            long time = player.getLong("cooldown." + name);
-            return time > Instant.now().getEpochSecond();
-        } else return false;
+            player.set("cooldown." + name, nextUseTime);
+            try {
+                player.save(file);
+            } catch (IOException e) {
+                throw new RuntimeException(e);
+            }
+        });
     }
 
     @Override
-    public void putCooldownForKit(String name, UUID uuid) {
+    public Map<String, Long> getCooldownsForPlayer(UUID uuid) {
         File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/player_" + uuid.toString() + ".yml");
         if(!file.exists()) {
             try {
@@ -109,28 +110,33 @@ public class YAML implements Database {
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
-        Kit kit = kits.get(name);
-        if(kit != null) player.set("cooldown." + name, kit.getCooldown() + Instant.now().getEpochSecond());
-        try {
-            player.save(file);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+        Map<String, Long> cooldowns = new HashMap<>();
+        for(String kit : player.getConfigurationSection("cooldown").getKeys(false)) {
+            cooldowns.put(kit, player.getLong("cooldown." + kit));
         }
+        return cooldowns;
     }
 
     @Override
-    public Boolean onLimitForKit(String name, UUID uuid) {
+    public Map<String, Integer> getLimitsForPlayer(UUID uuid) {
         File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/player_" + uuid.toString() + ".yml");
-        if(file.exists()) {
-            YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
-            kits.get(name).getLimit();
-            int limit = player.getInt("limit." + name);
-            return kits.get(name).getLimit() <= limit;
-        } else return false;
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
+        Map<String, Integer> limits = new HashMap<>();
+        for(String kit : player.getConfigurationSection("limit").getKeys(false)) {
+            limits.put(kit, player.getInt("limit." + kit));
+        }
+        return limits;
     }
 
     @Override
-    public void addLimitForKit(String name, UUID uuid) {
+    public void changeLimitForKit(String name, UUID uuid, int change) {
         File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/player_" + uuid.toString() + ".yml");
         if(!file.exists()) {
             try {
@@ -141,7 +147,7 @@ public class YAML implements Database {
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
         int current = player.get("limit." + name) != null ? player.getInt("limit." + name) : 0;
-        player.set("limit." + name, current + 1);
+        player.set("limit." + name, current + change);
         try {
             player.save(file);
         } catch (IOException e) {
