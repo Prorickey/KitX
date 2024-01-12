@@ -9,6 +9,7 @@ public interface Database {
     Map<String, Kit> getKits();
     Kit getKit(String name);
     void saveKit(String name, Kit kit);
+    void updateKit(String name, Kit kit);
     void deleteKit(String name);
 
     void putCooldownForKit(String name, UUID uuid, Long nextUseTime);

@@ -73,6 +73,30 @@ public class YAML implements Database {
     }
 
     @Override
+    public void updateKit(String name, Kit kit) {
+        File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/kit_" + name + ".yml");
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        yaml.set("name", kit.name());
+        yaml.set("permission", kit.permission());
+        yaml.set("cooldown", kit.cooldown());
+        yaml.set("limit", kit.limit());
+        yaml.set("items", kit.items());
+        try {
+            yaml.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if(!Objects.equals(name, kit.name())) deleteKit(name);
+    }
+
+    @Override
     public void deleteKit(String name) {
         File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/kit_" + name + ".yml");
         file.delete();

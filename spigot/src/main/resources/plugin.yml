@@ -1,0 +1,5 @@
+name: KitX
+main: xyz.prorickey.kitx.spigot.KitX
+version: ${version}
+api-version: 1.13
+author: Prorickey

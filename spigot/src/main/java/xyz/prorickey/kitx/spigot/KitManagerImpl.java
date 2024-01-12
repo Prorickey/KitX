@@ -38,6 +38,12 @@ public class KitManagerImpl implements KitManager {
     }
 
     @Override
+    public void updateKit(String name, Kit kit) {
+        kits.put(name, kit);
+        database.saveKit(name, kit);
+    }
+
+    @Override
     public Kit getKit(String name) {
         if(kits.containsKey(name)) return kits.get(name);
         else return database.getKit(name);

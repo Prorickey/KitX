@@ -3,7 +3,7 @@ plugins {
 }
 
 group = "xyz.prorickey"
-version = "1.3.0"
+version = "1.2.0"
 
 tasks {
     assemble {
