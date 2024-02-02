@@ -2,7 +2,6 @@ package xyz.prorickey.kitx.spigot;
 
 import cloud.commandframework.execution.CommandExecutionCoordinator;
 import cloud.commandframework.paper.PaperCommandManager;
-import net.cybercake.cyberapi.common.builders.settings.FeatureSupport;
 import net.cybercake.cyberapi.common.builders.settings.Settings;
 import net.cybercake.cyberapi.spigot.CyberAPI;
 import org.bukkit.*;
@@ -15,7 +14,6 @@ import xyz.prorickey.kitx.spigot.cmds.CmdKitX;
 import xyz.prorickey.kitx.spigot.database.Database;
 import xyz.prorickey.kitx.spigot.database.YAML;
 
-import java.lang.reflect.InvocationTargetException;
 import java.util.function.Function;
 
 public class KitX extends CyberAPI {

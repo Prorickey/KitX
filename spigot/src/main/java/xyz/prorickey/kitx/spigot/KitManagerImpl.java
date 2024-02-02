@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class KitManagerImpl implements KitManager {
 
-    private Database database;
+    private final Database database;
     Map<String, Kit> kits;
     Map<UUID, Map<String, Long>> playerCooldowns = new HashMap<>();
     Map<UUID, Map<String, Integer>> playerLimits = new HashMap<>();

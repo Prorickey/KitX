@@ -11,7 +11,6 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
-import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.prorickey.kitx.api.Kit;
@@ -153,22 +152,7 @@ public class CmdKitX {
                         context.getSender().sendMessage(UChat.miniMessage("<green>Successfully set permission for kit <yellow>" + kitName + "<green> to <yellow>" + value + "<green>!"));
                     }
                     case "cooldown": {
-                        int cooldown = 0;
-                        try {
-                            if (value.toLowerCase().endsWith("s")) {
-                                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1));
-                            } else if (value.toLowerCase().endsWith("m")) {
-                                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60;
-                            } else if (value.toLowerCase().endsWith("h")) {
-                                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60 * 60;
-                            } else if (value.toLowerCase().endsWith("d")) {
-                                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60 * 60 & 24;
-                            } else {
-                                cooldown = Integer.parseInt(value);
-                            }
-                        } catch (NumberFormatException e) {
-                            cooldown = 0;
-                        }
+                        int cooldown = getCooldown(value);
                         KitX.getKitManager().updateKit(kitName, new Kit(
                                 kit.name(),
                                 kit.permission(),
@@ -212,5 +196,24 @@ public class CmdKitX {
                 context.getSender().sendMessage(UChat.miniMessage("<green>Successfully deleted kit <yellow>" + kitName + "<green>!"));
             }
         }
+    }
+
+    private static int getCooldown(String value) {
+        int cooldown = 0;
+        try {
+            if (value.toLowerCase().endsWith("s")) {
+                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1));
+            } else if (value.toLowerCase().endsWith("m")) {
+                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60;
+            } else if (value.toLowerCase().endsWith("h")) {
+                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60 * 60;
+            } else if (value.toLowerCase().endsWith("d")) {
+                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60 * 60 & 24;
+            } else {
+                cooldown = Integer.parseInt(value);
+            }
+        } catch (NumberFormatException ignored) {
+        }
+        return cooldown;
     }
 }

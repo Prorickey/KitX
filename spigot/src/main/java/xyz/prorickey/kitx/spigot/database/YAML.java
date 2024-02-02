@@ -56,7 +56,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the kit file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
@@ -68,7 +69,8 @@ public class YAML implements Database {
         try {
             yaml.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe("Could not save config file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+            Bukkit.getLogger().severe(e.getMessage());
         }
     }
 
@@ -79,7 +81,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the kit file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
@@ -91,7 +94,8 @@ public class YAML implements Database {
         try {
             yaml.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe("Could not update the kit file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+            Bukkit.getLogger().severe(e.getMessage());
         }
         if(!Objects.equals(name, kit.name())) deleteKit(name);
     }
@@ -110,7 +114,8 @@ public class YAML implements Database {
                 try {
                     file.createNewFile();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                    Bukkit.getLogger().severe(e.getMessage());
                 }
             }
             YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
@@ -118,7 +123,8 @@ public class YAML implements Database {
             try {
                 player.save(file);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Bukkit.getLogger().severe("Could not update the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         });
     }
@@ -130,7 +136,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
@@ -148,7 +155,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
@@ -166,7 +174,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
