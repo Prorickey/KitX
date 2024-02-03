@@ -2,6 +2,7 @@ package xyz.prorickey.kitx.spigot.database;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.*;
+import org.bukkit.inventory.ItemStack;
 import xyz.prorickey.kitx.api.Kit;
 import xyz.prorickey.kitx.spigot.KitX;
 
@@ -28,7 +29,7 @@ public class YAML implements Database {
                     if (yaml.get("permission") != null) permission = yaml.getString("permission");
                     int limit = 0;
                     if (yaml.get("limit") != null) limit = yaml.getInt("limit");
-                    Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getInt("cooldown"), yaml.getStringList("items"));
+                    Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, yaml.getInt("cooldown"), limit, (List<ItemStack>) yaml.getList("items"));
                     kits.put(yaml.getString("name").toLowerCase(), kit);
                 }
             }
@@ -45,7 +46,7 @@ public class YAML implements Database {
             if (yaml.get("permission") != null) permission = yaml.getString("permission");
             int limit = 0;
             if (yaml.get("limit") != null) limit = yaml.getInt("limit");
-            return new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getInt("cooldown"), yaml.getStringList("items"));
+            return new Kit(yaml.getString("name").toLowerCase(), permission, yaml.getInt("cooldown"), limit, (List<ItemStack>) yaml.getList("items"));
         } else return null;
     }
 

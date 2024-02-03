@@ -11,7 +11,7 @@ repositories {
     maven("https://hub.spigotmc.org/nexus/content/repositories/snapshots/")
     maven("https://oss.sonatype.org/content/repositories/snapshots")
     maven("https://repo.papermc.io/repository/maven-public/")
-    maven("https://jitpack.io")
+    maven("https://repo.cybercake.net/repository/maven-public/")
 }
 
 dependencies {
@@ -20,8 +20,8 @@ dependencies {
     implementation(project(":api"))
     implementation("me.lucko:commodore:1.9")
     implementation("cloud.commandframework", "cloud-paper", "1.8.4")
-    implementation("com.github.CyberedCake.CyberAPI:spigot:161")
-    implementation("com.github.CyberedCake.CyberAPI:common:161")
+    implementation("net.cybercake.cyberapi:common:171")
+    implementation("net.cybercake.cyberapi:spigot:171")
 }
 
 java {

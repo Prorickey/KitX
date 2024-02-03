@@ -18,9 +18,7 @@ Commands | Description
 ### Permissions
 Permission | Description 
 --- | ---
-`kitx.subcommands.create` | To create a kit with the /kitx create command
-`kitx.subcommands.delete` | To delete a kit with the /kitx delete command
-`kitx.subcommands.list` | To list all the kits with the /kitx list command
+`kitx.admin` | To use the `/kitx` command
 `kit.cooldown.<kitname>.bypass` | To bypass a certain kit's cooldown
 `kit.limit.<kitname>.bypass` | To bypass a certain kit's limit
 

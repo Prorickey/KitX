@@ -11,12 +11,14 @@ import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
 import org.bukkit.command.*;
 import org.bukkit.entity.*;
+import org.bukkit.inventory.ItemStack;
 import org.bukkit.plugin.java.*;
 import org.checkerframework.checker.nullness.qual.NonNull;
 import xyz.prorickey.kitx.api.Kit;
 import xyz.prorickey.kitx.spigot.KitX;
 import xyz.prorickey.kitx.spigot.builders.SubCommand;
 
+import java.time.Duration;
 import java.util.*;
 
 public class CmdKitX {
@@ -27,11 +29,12 @@ public class CmdKitX {
     public static void registerCommand(PaperCommandManager<CommandSender> manager) {
         manager.command(
                 manager.commandBuilder("kitx", ArgumentDescription.of("The admin command for KitX"))
+                        .permission("kitx.admin")
                         .argument(
                                 manager.argumentBuilder(String.class, "sub")
                                         .asOptional()
                                         .withSuggestionsProvider((context, arg) ->
-                                                UTabComp.tabCompletionsSearch(arg, List.of("help", "create", "delete", "list")))
+                                                UTabComp.tabCompletionsSearch(arg, List.of("help", "create", "delete", "edit", "list")))
                                         .build()
                         )
                         .argument(
@@ -109,9 +112,9 @@ public class CmdKitX {
                     player.sendMessage(UChat.miniMessage("<red>A kit with that name already exists!"));
                     return;
                 }
-                List<String> items = new ArrayList<>();
+                List<ItemStack> items = new ArrayList<>();
                 player.getInventory().forEach(item -> {
-                    if (item != null) items.add(item.toString());
+                    if (item != null) items.add(item);
                 });
                 KitX.getKitManager().addKit(new Kit(kitName, null, 0, 0, items));
                 player.sendMessage(UChat.miniMessage("<green>Successfully created kit <yellow>" + kitName + "<green>!"));
@@ -150,17 +153,21 @@ public class CmdKitX {
                                 kit.items()
                         ));
                         context.getSender().sendMessage(UChat.miniMessage("<green>Successfully set permission for kit <yellow>" + kitName + "<green> to <yellow>" + value + "<green>!"));
+                        break;
                     }
                     case "cooldown": {
                         int cooldown = getCooldown(value);
                         KitX.getKitManager().updateKit(kitName, new Kit(
                                 kit.name(),
                                 kit.permission(),
-                                kit.limit(),
                                 cooldown,
+                                kit.limit(),
                                 kit.items()
                         ));
-                        context.getSender().sendMessage(UChat.miniMessage("<green>Successfully set cooldown for kit <yellow>" + kitName + "<green> to <yellow>" + cooldown + "<green>!"));
+                        context.getSender().sendMessage(UChat.miniMessage("<green>Successfully set cooldown for kit <yellow>" + kitName + "<green> to <yellow>" +
+                                Duration.ofSeconds(cooldown).toString().substring(2).replaceAll("(\\d[HMS])(?!$)", "$1 ").toLowerCase() +
+                                "<green>!"));
+                        break;
                     }
                     case "limit": {
                         int limit = 0;
@@ -173,11 +180,12 @@ public class CmdKitX {
                         KitX.getKitManager().updateKit(kitName, new Kit(
                                 kit.name(),
                                 kit.permission(),
-                                limit,
                                 kit.cooldown(),
+                                limit,
                                 kit.items()
                         ));
                         context.getSender().sendMessage(UChat.miniMessage("<green>Successfully set limit for kit <yellow>" + kitName + "<green> to <yellow>" + limit + "<green>!"));
+                        break;
                     }
                 }
             }
@@ -202,13 +210,13 @@ public class CmdKitX {
         int cooldown = 0;
         try {
             if (value.toLowerCase().endsWith("s")) {
-                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1));
+                cooldown = Integer.parseInt(value.substring(0, value.length() - 1));
             } else if (value.toLowerCase().endsWith("m")) {
-                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60;
+                cooldown = Integer.parseInt(value.substring(0, value.length() - 1)) * 60;
             } else if (value.toLowerCase().endsWith("h")) {
-                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60 * 60;
+                cooldown = Integer.parseInt(value.substring(0, value.length() - 1)) * 60 * 60;
             } else if (value.toLowerCase().endsWith("d")) {
-                cooldown = Integer.parseInt(value.substring(value.length() - 2, value.length() - 1)) * 60 * 60 & 24;
+                cooldown = Integer.parseInt(value.substring(0, value.length() - 1)) * 60 * 60 * 24;
             } else {
                 cooldown = Integer.parseInt(value);
             }

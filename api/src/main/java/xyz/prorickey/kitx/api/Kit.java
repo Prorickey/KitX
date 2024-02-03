@@ -1,5 +1,7 @@
 package xyz.prorickey.kitx.api;
 
+import org.bukkit.inventory.ItemStack;
+
 import java.util.List;
 
 public record Kit(
@@ -7,7 +9,7 @@ public record Kit(
         String permission,
         Integer cooldown,
         Integer limit,
-        List<String> items
+        List<ItemStack> items
 ) {
 
 

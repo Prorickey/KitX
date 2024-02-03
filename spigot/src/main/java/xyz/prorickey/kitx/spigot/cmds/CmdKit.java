@@ -72,13 +72,13 @@ public class CmdKit {
                 player.sendMessage(UChat.miniMessage("<red>You don't have permission to get that kit!"));
                 return;
             }
-            if(!player.hasPermission("kit.limit." + kitName + ".bypass") && KitX.getKitManager().getPlayerLimit(player.getUniqueId(), kit) <= kit.limit()) {
+            if(!player.hasPermission("kit.limit." + kitName + ".bypass") && kit.limit() != 0 && KitX.getKitManager().getPlayerLimit(player.getUniqueId(), kit) >= kit.limit()) {
                 player.sendMessage(UChat.miniMessage("<red>You have reached the limit for that kit!"));
                 return;
             }
             if(player.hasPermission("kit.cooldown." + kitName + ".bypass") || !KitX.getKitManager().checkPlayerOnCooldown(player.getUniqueId(), kit)) {
-                kit.items().forEach(i -> player.getInventory().addItem((ItemStack) ((Object) i)));
-                player.sendMessage(UChat.miniMessage("&eGave you the &6" + kit.name() + " &ekit"));
+                kit.items().forEach(i -> player.getInventory().addItem(i));
+                player.sendMessage(UChat.miniMessage("<yellow>Gave you the <gold>" + kit.name() + " <yellow>kit"));
             } else {
                 player.sendMessage(UChat.miniMessage("<red>You are on cooldown for that kit!"));
                 return;
