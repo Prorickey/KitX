@@ -28,5 +28,8 @@ Permission | Description
 ### Support
 You can get support with the plugin in our [discord](https://discord.gg/DwQHaky3Nf)
 
+### Developer API
+Currently the developer api isn't published. You can interact with the kits and database through it but you must build the plugin and publish the api to local. If someone actually uses the developer api open an issue and I will start publishing it to my repo.
+
 ### Credits
 - [CyberedCake](https://github.com/CyberedCake) - The logo was remade by CyberedCake
