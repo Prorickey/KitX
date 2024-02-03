@@ -1,0 +1,9 @@
+kitx {
+    sub {
+        kitName {
+            property {
+                value;
+            }
+        }
+    }
+}

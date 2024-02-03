@@ -10,7 +10,10 @@ A light weight kit manager plugin for spigot servers
 ### Commands
 Commands | Description                                                    
 -------------- |--------------------------------------------------------
-`/kitx create <kitname> [cooldown] [limit] [permission]` | To create a kit with an optional cooldown and or permission. In the cooldown you can put `s`, `m`, `h` and `d` after the number to convert it to seconds, minutes, hours and days. Having no suffix will default to seconds. If you do not want a limit, put it as 0 or leave it blank. 
+`/kitx create <kitname>` | To create a kit with a specific name
+`/kitx edit <kitname> cooldown <value>` | To set a cooldown for how long a kit. Use suffixes `s`, `m`, `h`, and `d` to specify seconds, minutes, hours and days.
+`/kitx edit <kitname> limit <value>` | To set the limit for how many times a kit can be used
+`/kitx edit <kitname> permission <value>` | To set a permission for a kit
 `/kitx delete <kitname>`   | To delete a kit by it's name                                   
 `/kitx help` | To display the help section of the /kitx command               
 `/kit <kitname>` | To get a certain kit. It will check the permission and cooldown 
@@ -18,14 +21,15 @@ Commands | Description
 ### Permissions
 Permission | Description 
 --- | ---
-`kitx.subcommands.create` | To create a kit with the /kitx create command
-`kitx.subcommands.delete` | To delete a kit with the /kitx delete command
-`kitx.subcommands.list` | To list all the kits with the /kitx list command
+`kitx.admin` | To use the `/kitx` command
 `kit.cooldown.<kitname>.bypass` | To bypass a certain kit's cooldown
 `kit.limit.<kitname>.bypass` | To bypass a certain kit's limit
 
 ### Support
 You can get support with the plugin in our [discord](https://discord.gg/DwQHaky3Nf)
+
+### Developer API
+Currently the developer api isn't published. You can interact with the kits and database through it but you must build the plugin and publish the api to local. If someone actually uses the developer api open an issue and I will start publishing it to my repo.
 
 ### Credits
 - [CyberedCake](https://github.com/CyberedCake) - The logo was remade by CyberedCake

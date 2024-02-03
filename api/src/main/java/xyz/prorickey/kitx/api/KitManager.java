@@ -8,6 +8,7 @@ public interface KitManager {
     Map<String, Kit> getAllKits();
     void addKit(Kit kit);
     void removeKit(Kit kit);
+    void updateKit(String name, Kit kit);
     Kit getKit(String name);
 
     void putPlayerOnCooldown(UUID uuid, Kit kit);

@@ -2,6 +2,7 @@ package xyz.prorickey.kitx.spigot.database;
 
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.file.*;
+import org.bukkit.inventory.ItemStack;
 import xyz.prorickey.kitx.api.Kit;
 import xyz.prorickey.kitx.spigot.KitX;
 
@@ -28,7 +29,7 @@ public class YAML implements Database {
                     if (yaml.get("permission") != null) permission = yaml.getString("permission");
                     int limit = 0;
                     if (yaml.get("limit") != null) limit = yaml.getInt("limit");
-                    Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getInt("cooldown"), yaml.getStringList("items"));
+                    Kit kit = new Kit(yaml.getString("name").toLowerCase(), permission, yaml.getInt("cooldown"), limit, (List<ItemStack>) yaml.getList("items"));
                     kits.put(yaml.getString("name").toLowerCase(), kit);
                 }
             }
@@ -45,7 +46,7 @@ public class YAML implements Database {
             if (yaml.get("permission") != null) permission = yaml.getString("permission");
             int limit = 0;
             if (yaml.get("limit") != null) limit = yaml.getInt("limit");
-            return new Kit(yaml.getString("name").toLowerCase(), permission, limit, yaml.getInt("cooldown"), yaml.getStringList("items"));
+            return new Kit(yaml.getString("name").toLowerCase(), permission, yaml.getInt("cooldown"), limit, (List<ItemStack>) yaml.getList("items"));
         } else return null;
     }
 
@@ -56,7 +57,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the kit file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
@@ -68,8 +70,35 @@ public class YAML implements Database {
         try {
             yaml.save(file);
         } catch (IOException e) {
-            e.printStackTrace();
+            Bukkit.getLogger().severe("Could not save config file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+            Bukkit.getLogger().severe(e.getMessage());
         }
+    }
+
+    @Override
+    public void updateKit(String name, Kit kit) {
+        File file = new File(KitX.getPlugin().getDataFolder() + "/yaml/kit_" + name + ".yml");
+        if(!file.exists()) {
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                Bukkit.getLogger().severe("Could not create the kit file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
+            }
+        }
+        FileConfiguration yaml = YamlConfiguration.loadConfiguration(file);
+        yaml.set("name", kit.name());
+        yaml.set("permission", kit.permission());
+        yaml.set("cooldown", kit.cooldown());
+        yaml.set("limit", kit.limit());
+        yaml.set("items", kit.items());
+        try {
+            yaml.save(file);
+        } catch (IOException e) {
+            Bukkit.getLogger().severe("Could not update the kit file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+            Bukkit.getLogger().severe(e.getMessage());
+        }
+        if(!Objects.equals(name, kit.name())) deleteKit(name);
     }
 
     @Override
@@ -86,7 +115,8 @@ public class YAML implements Database {
                 try {
                     file.createNewFile();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                    Bukkit.getLogger().severe(e.getMessage());
                 }
             }
             YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
@@ -94,7 +124,8 @@ public class YAML implements Database {
             try {
                 player.save(file);
             } catch (IOException e) {
-                throw new RuntimeException(e);
+                Bukkit.getLogger().severe("Could not update the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         });
     }
@@ -106,7 +137,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
@@ -124,7 +156,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);
@@ -142,7 +175,8 @@ public class YAML implements Database {
             try {
                 file.createNewFile();
             } catch (IOException e) {
-                e.printStackTrace();
+                Bukkit.getLogger().severe("Could not create the player file! Details below, please report this to the developer: https://github.com/Prorickey/KitX/issues");
+                Bukkit.getLogger().severe(e.getMessage());
             }
         }
         YamlConfiguration player = YamlConfiguration.loadConfiguration(file);

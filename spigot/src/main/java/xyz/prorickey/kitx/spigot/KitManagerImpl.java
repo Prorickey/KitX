@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class KitManagerImpl implements KitManager {
 
-    private Database database;
+    private final Database database;
     Map<String, Kit> kits;
     Map<UUID, Map<String, Long>> playerCooldowns = new HashMap<>();
     Map<UUID, Map<String, Integer>> playerLimits = new HashMap<>();
@@ -38,6 +38,12 @@ public class KitManagerImpl implements KitManager {
     }
 
     @Override
+    public void updateKit(String name, Kit kit) {
+        kits.put(name, kit);
+        database.saveKit(name, kit);
+    }
+
+    @Override
     public Kit getKit(String name) {
         if(kits.containsKey(name)) return kits.get(name);
         else return database.getKit(name);
@@ -45,6 +51,7 @@ public class KitManagerImpl implements KitManager {
 
     @Override
     public void putPlayerOnCooldown(UUID uuid, Kit kit) {
+        if(!playerCooldowns.containsKey(uuid)) playerCooldowns.put(uuid, new HashMap<>());
         playerCooldowns.get(uuid).put(kit.name(), Instant.now().getEpochSecond()+kit.cooldown());
         database.putCooldownForKit(kit.name(), uuid, Instant.now().getEpochSecond()+kit.cooldown());
     }
@@ -57,20 +64,21 @@ public class KitManagerImpl implements KitManager {
 
     @Override
     public void updatePlayerLimit(UUID uuid, Kit kit, int change) {
+        if(!playerLimits.containsKey(uuid)) playerLimits.put(uuid, new HashMap<>());
         playerLimits.get(uuid).put(kit.name(), playerLimits.get(uuid).getOrDefault(kit.name(), 0)+change);
         database.changeLimitForKit(kit.name(), uuid, change);
     }
 
     @Override
     public Boolean checkPlayerOnCooldown(UUID uuid, Kit kit) {
-        if(!playerCooldowns.containsKey(uuid)) return true;
+        if(!playerCooldowns.containsKey(uuid)) return false;
         else return playerCooldowns.get(uuid).get(kit.name()) != null &&
                 playerCooldowns.get(uuid).get(kit.name()) >= Instant.now().getEpochSecond();
     }
 
     @Override
     public int getPlayerLimit(UUID uuid, Kit kit) {
-        return playerLimits.get(uuid).getOrDefault(kit.name(), 0);
+        return playerLimits.getOrDefault(uuid, new HashMap<>()).getOrDefault(kit.name(), 0);
     }
 
     @Override
