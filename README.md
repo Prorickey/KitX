@@ -15,6 +15,7 @@ Commands | Description
 `/kitx edit <kitname> limit <value>` | To set the limit for how many times a kit can be used
 `/kitx edit <kitname> permission <value>` | To set a permission for a kit
 `/kitx delete <kitname>`   | To delete a kit by it's name                                   
+`/kitx list` | To list all the servers kits
 `/kitx help` | To display the help section of the /kitx command               
 `/kit <kitname>` | To get a certain kit. It will check the permission and cooldown 
 
