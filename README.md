@@ -17,7 +17,7 @@ Commands | Description
 `/kitx delete <kitname>`   | To delete a kit by it's name                                   
 `/kitx list` | To list all the servers kits
 `/kitx help` | To display the help section of the /kitx command               
-`/kit <kitname>` | To get a certain kit. It will check the permission and cooldown 
+`/kit <kitname>` | To get a certain kit. It will check the permission, limit and cooldown 
 
 ### Permissions
 Permission | Description 
